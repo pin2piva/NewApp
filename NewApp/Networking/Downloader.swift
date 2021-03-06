@@ -27,16 +27,7 @@ class Downloader {
                 completion(Result.failure(ResponseError.network))
                 return
             }
-            
-            if let object = try? JSONSerialization.jsonObject(with: data, options: []),
-               let dataJSOn = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-               let prettyPrintedString = String(data: dataJSOn, encoding: .utf8) {
-                
-                print(prettyPrintedString)
-            }
-            
 
-            
             guard let decodedResponse = try? JSONDecoder().decode(NewsResponse.self, from: data) else {
                 completion(Result.failure(ResponseError.decoding))
                 return
@@ -44,12 +35,5 @@ class Downloader {
             
             completion(Result.success(decodedResponse))
         }).resume()
-    }
-}
-
-
-extension HTTPURLResponse {
-    var hasSuccessStatusCode: Bool {
-        return 200...299 ~= statusCode
     }
 }
