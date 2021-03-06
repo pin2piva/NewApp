@@ -105,7 +105,16 @@ class ArticleCell: UITableViewCell {
     
     
     private func checkIsDescriptionLabelTruncated() -> Bool {
-        descriptionLabel.countLabelLines() > 3
+        countDescriptionLabelLines() > 3
+    }
+    
+    
+    private func countDescriptionLabelLines() -> Int {
+        layoutIfNeeded()
+        let myText = descriptionLabel.text! as NSString
+        let rect = CGSize(width: descriptionLabel.bounds.width, height: CGFloat.greatestFiniteMagnitude)
+        let labelSize = myText.boundingRect(with: rect, options: .usesLineFragmentOrigin, attributes: [.font: descriptionLabel.font!], context: nil)
+        return Int(ceil(CGFloat(labelSize.height) / descriptionLabel.font.lineHeight))
     }
     
 }
