@@ -20,6 +20,14 @@ class NewsTableViewController: UITableViewController, AlertDisplayer {
         return searchController
     }()
     
+    lazy private var initialActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        return activityIndicator
+    }()
+    
     private var viewModel: NewsViewModel!
     private var expandedCell: ArticleCell?
     private var expandedIndexSet: IndexSet = []
@@ -47,6 +55,7 @@ class NewsTableViewController: UITableViewController, AlertDisplayer {
         registerNewsCell()
         configureTable()
         configureTableBackground()
+        addInitialActivityIndicator()
         configureRefreshControll()
         viewModel = NewsViewModel(delegate: self)
         viewModel.fetchNews()
@@ -63,6 +72,7 @@ class NewsTableViewController: UITableViewController, AlertDisplayer {
     
     
     private func configureTable() {
+        tableView.isHidden = true
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
     }
@@ -77,6 +87,11 @@ class NewsTableViewController: UITableViewController, AlertDisplayer {
         gradient.frame = backgroundView.frame
         backgroundView.layer.addSublayer(gradient)
         tableView.backgroundView = backgroundView
+    }
+    
+    
+    private func addInitialActivityIndicator() {
+        navigationController?.view.addSubview(initialActivityIndicator)
     }
     
     
@@ -155,6 +170,10 @@ extension NewsTableViewController {
 extension NewsTableViewController: NewsViewModelDelegate {
     
     func onFetchCompleted() {
+        if tableView.isHidden  {
+            initialActivityIndicator.stopAnimating()
+            tableView.isHidden = false
+        }
         tableView.reloadData()
     }
     
