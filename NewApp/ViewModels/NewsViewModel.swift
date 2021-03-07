@@ -111,7 +111,7 @@ class NewsViewModel {
     
     
     func search(_ text: String) {
-        filteredArticles = articles.filter { $0.description.lowercased().contains(text.lowercased()) }
+        filteredArticles = articles.filter { $0.title.lowercased().contains(text.lowercased()) }
         delegate?.onSearchComplited()
     }
     

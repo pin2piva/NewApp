@@ -31,6 +31,7 @@ class ArticleCell: UITableViewCell {
     // MARK: - Outlets
     
     
+    @IBOutlet private var articleTitleLabel: UILabel!
     @IBOutlet private var articleImageView: UIImageView!
     @IBOutlet private var descriptionLabel: UILabel!
     @IBOutlet private var showMoreButton: UIButton!
@@ -65,6 +66,7 @@ class ArticleCell: UITableViewCell {
     
     func setArticle(_ article: Article?) {
         self.article = article
+        updateArticleTitleLabelText()
         updateArticleImageViewImage()
         updateDescriptionLabelText()
     }
@@ -77,6 +79,11 @@ class ArticleCell: UITableViewCell {
     
     
     // MARK: - Private
+    
+    
+    private func updateArticleTitleLabelText() {
+        articleTitleLabel.text = article?.title
+    }
     
     
     private func updateArticleImageViewImage() {
