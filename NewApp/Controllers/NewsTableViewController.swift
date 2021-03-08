@@ -156,7 +156,7 @@ extension NewsTableViewController {
 extension NewsTableViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.layoutSubviews()
+        guard !isFiltering else { return }
         if indexPath.row == (viewModel.currentCount - 1) {
             viewModel.fetchNews()
         }
